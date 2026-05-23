@@ -20,31 +20,26 @@ if defined VCVARS (
     echo Visual Studio не найдена. Продолжаю — если уже в Developer Command Prompt, всё OK.
 )
 
-rem rc.exe — часть Windows SDK, ищем вручную если не в PATH
-where rc.exe >nul 2>&1
-if %ERRORLEVEL% neq 0 (
-    set "RC_EXE="
-    for /d %%v in ("C:\Program Files (x86)\Windows Kits\10\bin\10.*") do (
-        if exist "%%v\x64\rc.exe" set "RC_EXE=%%v\x64\rc.exe"
-    )
-    for /d %%v in ("C:\Program Files\Windows Kits\10\bin\10.*") do (
-        if exist "%%v\x64\rc.exe" set "RC_EXE=%%v\x64\rc.exe"
-    )
-    if defined RC_EXE (
-        for %%f in ("!RC_EXE!") do set "RC_DIR=%%~dpf"
-        echo rc.exe найден: !RC_EXE!
-        set "PATH=!PATH!;!RC_DIR!"
-    ) else (
-        echo ОШИБКА: rc.exe не найден. Установи Windows SDK.
-        pause & exit /b 1
-    )
+rem Ищем rc.exe по полному пути в Windows Kits (всегда, чтобы не подхватить случайный rc.exe)
+set "RC_EXE="
+for /d %%v in ("C:\Program Files (x86)\Windows Kits\10\bin\10.*") do (
+    if exist "%%v\x64\rc.exe" set "RC_EXE=%%v\x64\rc.exe"
 )
+for /d %%v in ("C:\Program Files\Windows Kits\10\bin\10.*") do (
+    if exist "%%v\x64\rc.exe" set "RC_EXE=%%v\x64\rc.exe"
+)
+
+if not defined RC_EXE (
+    echo ОШИБКА: rc.exe не найден в Windows Kits. Установи Windows 10 SDK.
+    pause & exit /b 1
+)
+echo rc.exe: !RC_EXE!
 
 echo.
 echo [1/2] Компиляция ресурсов...
-rc /nologo /c 65001 /fo app.res app.rc
+"!RC_EXE!" /nologo /c 65001 /fo app.res app.rc
 if %ERRORLEVEL% neq 0 (
-    echo ОШИБКА: rc.exe завершился с кодом %ERRORLEVEL%
+    echo ОШИБКА: rc завершился с кодом %ERRORLEVEL%
     pause & exit /b 1
 )
 
