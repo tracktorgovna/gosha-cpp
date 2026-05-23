@@ -1,5 +1,4 @@
 # Build artifacts
-*.exe
 *.obj
 *.res
 *.o
