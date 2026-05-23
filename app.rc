@@ -1,0 +1,52 @@
+#pragma code_page(65001)
+#include "resource.h"
+#include <windows.h>
+
+IDR_MAINMENU MENU
+BEGIN
+    POPUP "&Файл"
+    BEGIN
+        MENUITEM "&Войти...",                   ID_MENU_LOGIN
+        MENUITEM "Сменить &пользователя...",    ID_MENU_LOGOUT, GRAYED
+        MENUITEM SEPARATOR
+        MENUITEM "Вы&ход",                      ID_MENU_EXIT
+    END
+    POPUP "&Хранилище"
+    BEGIN
+        MENUITEM "&Просмотр данных",            ID_MENU_VIEW_DATA,  GRAYED
+        MENUITEM "&Добавить запись...",         ID_MENU_ADD_RECORD, GRAYED
+    END
+    POPUP "&Безопасность"
+    BEGIN
+        MENUITEM "&Журнал аудита",              ID_MENU_AUDIT,   GRAYED
+        MENUITEM "&Демонстрация SQL-инъекций",  ID_MENU_SQL_DEMO
+    END
+END
+
+IDD_LOGIN DIALOGEX 0, 0, 220, 92
+STYLE DS_SETFONT | DS_MODALFRAME | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Авторизация"
+FONT 9, "Segoe UI"
+BEGIN
+    LTEXT       "Логин:",   IDC_STATIC,     10, 15, 42, 10
+    EDITTEXT    IDC_LOGIN_USER,             56, 13, 152, 13, ES_AUTOHSCROLL
+    LTEXT       "Пароль:",  IDC_STATIC,     10, 34, 42, 10
+    EDITTEXT    IDC_LOGIN_PASS,             56, 32, 152, 13, ES_AUTOHSCROLL | ES_PASSWORD
+    LTEXT       "admin/admin123   user1/pass1   guest/guest",
+                IDC_STATIC,                 10, 55, 200, 10, SS_GRAYTEXT
+    DEFPUSHBUTTON "Войти",   IDOK,          108, 70, 50, 14
+    PUSHBUTTON    "Отмена",  IDCANCEL,      162, 70, 50, 14
+END
+
+IDD_ADDRECORD DIALOGEX 0, 0, 252, 82
+STYLE DS_SETFONT | DS_MODALFRAME | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Добавить запись"
+FONT 9, "Segoe UI"
+BEGIN
+    LTEXT       "Данные:",   IDC_STATIC,    10, 15, 45, 10
+    EDITTEXT    IDC_ADD_INFO,               60, 13, 182, 13, ES_AUTOHSCROLL
+    LTEXT       "Телефон:",  IDC_STATIC,    10, 34, 45, 10
+    EDITTEXT    IDC_ADD_PHONE,              60, 32, 182, 13, ES_AUTOHSCROLL
+    DEFPUSHBUTTON "Добавить", IDOK,         140, 58, 52, 14
+    PUSHBUTTON    "Отмена",   IDCANCEL,     196, 58, 47, 14
+END

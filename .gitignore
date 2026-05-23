@@ -1,0 +1,18 @@
+# Build artifacts
+*.exe
+*.obj
+*.res
+*.pdb
+*.ilk
+*.exp
+*.lib
+
+# Database (runtime file, not source)
+*.db
+
+# SQLite runtime DLL (user downloads separately)
+sqlite3.dll
+sqlite3.def
+
+# Build tools state
+.omc/
