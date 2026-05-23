@@ -31,9 +31,9 @@ if %ERRORLEVEL% neq 0 (
         if exist "%%v\x64\rc.exe" set "RC_EXE=%%v\x64\rc.exe"
     )
     if defined RC_EXE (
+        for %%f in ("!RC_EXE!") do set "RC_DIR=%%~dpf"
         echo rc.exe найден: !RC_EXE!
-        set "PATH=!PATH!;%~dp0"
-        copy /y "!RC_EXE!" "%~dp0rc.exe" >nul
+        set "PATH=!PATH!;!RC_DIR!"
     ) else (
         echo ОШИБКА: rc.exe не найден. Установи Windows SDK.
         pause & exit /b 1
@@ -57,7 +57,7 @@ cl /nologo /EHsc /W3 /O2 /utf-8 /DUNICODE /D_UNICODE /I. ^
 if %ERRORLEVEL% equ 0 (
     echo.
     echo Готово: cloud_audit.exe
-    del /q main.obj app.res rc.exe 2>nul
+    del /q main.obj app.res 2>nul
 ) else (
     echo.
     echo ОШИБКА сборки.
